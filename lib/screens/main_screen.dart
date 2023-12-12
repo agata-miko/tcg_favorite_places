@@ -1,39 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tcg_favorite_places/providers/user_places.dart';
 
-import 'package:tcg_favorite_places/models/place.dart';
+import 'package:tcg_favorite_places/screens/add_place_screen.dart';
+import 'package:tcg_favorite_places/widgets/places_list.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerWidget {
   const MainScreen({Key? key}) : super(key: key);
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userPlaces = ref.watch(userPlacesProvider);
 
-class _MainScreenState extends State<MainScreen> {
-  final List<Place> _places = [
-     const Place(name: 'test1', id: '123',)
-  ];
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Your places'), actions: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AddPlaceScreen()));
+          },
           icon: const Icon(Icons.add),
         ),
       ]),
-      body: (_places.isEmpty)
-          ? Center(
-              child: Text('No places yet',
-                  style: TextStyle(color: Theme.of(context).highlightColor)),
-            )
-          : ListView.builder(
-              itemCount: _places.length,
-              itemBuilder: (context, index) => ListTile(
-                title: Text(_places[index].name),
-              ),
-            ),
+      body: PlacesList(
+        places: userPlaces,
+      ),
     );
   }
 }

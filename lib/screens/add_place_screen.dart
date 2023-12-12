@@ -1,37 +1,63 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:tcg_favorite_places/providers/user_places.dart';
 
-class AddPlaceScreen extends StatelessWidget {
+
+class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<AddPlaceScreen> createState() => _AddPlaceScreenState();
+}
+
+class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
+  final _titleController = TextEditingController();
+
+  void _savePlace() {
+    final enteredText = _titleController.text;
+
+    if (enteredText.isEmpty) {
+      return;
+    }
+    ref.read(userPlacesProvider.notifier).addPlace(enteredText);
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose () {
+    _titleController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Your places')),
-      body: Column(mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10,),
-            child: TextFormField(
-              initialValue: 'New place',
-              maxLength: 80,
-              onSaved: null,
+      appBar: AppBar(title: const Text('Add new place')),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(12),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            const SizedBox(height: 10),
+            TextField(
+              decoration: const InputDecoration(label: Text('Place name')),
+              controller: _titleController,
+              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
             ),
-          ),
-          Container(
-            constraints: const BoxConstraints(
-              maxWidth: 150,
-            ),
-            child: ElevatedButton(
-                onPressed: () {},
-                child: const Center(
-                  child: Row(
-                    children: <Widget>[Icon(Icons.add), Text('Add place')],
-                  ),
-                )),
-          )
-        ],
+            const SizedBox(height: 20,),
+            Container(
+              constraints: const BoxConstraints(
+                maxWidth: 145,
+              ),
+              child: ElevatedButton.icon(
+                onPressed: _savePlace,
+                icon: const Icon(Icons.add),
+                label: const Text('Add Place'),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
