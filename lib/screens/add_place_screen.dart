@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tcg_favorite_places/providers/user_places.dart';
+import 'package:tcg_favorite_places/widgets/image_input.dart';
 
 
 class AddPlaceScreen extends ConsumerStatefulWidget {
@@ -45,7 +46,9 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
               controller: _titleController,
               style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
             ),
-            const SizedBox(height: 20,),
+            const SizedBox(height: 10),
+            const ImageInput(),
+            const SizedBox(height: 16,),
             Container(
               constraints: const BoxConstraints(
                 maxWidth: 145,
