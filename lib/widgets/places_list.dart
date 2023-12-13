@@ -13,11 +13,15 @@ class PlacesList extends StatelessWidget {
         ? Center(
             child: Text('No places added yet',
                 style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onBackground)),
+                    color: Theme.of(context).colorScheme.onBackground)),
           )
         : ListView.builder(
             itemCount: places.length,
             itemBuilder: (context, index) => ListTile(
+              leading: CircleAvatar(
+                radius: 26,
+                backgroundImage: FileImage(places[index].image),
+              ),
               title: Text(
                 places[index].name,
                 style: Theme.of(context).textTheme.titleMedium!.copyWith(

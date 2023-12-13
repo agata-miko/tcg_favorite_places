@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tcg_favorite_places/providers/user_places.dart';
 import 'package:tcg_favorite_places/widgets/image_input.dart';
 
-
 class AddPlaceScreen extends ConsumerStatefulWidget {
   const AddPlaceScreen({Key? key}) : super(key: key);
 
@@ -22,12 +21,14 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
     if (enteredText.isEmpty || _selectedImage == null) {
       return;
     }
-    ref.read(userPlacesProvider.notifier).addPlace(enteredText, _selectedImage!);
+    ref
+        .read(userPlacesProvider.notifier)
+        .addPlace(enteredText, _selectedImage!);
     Navigator.of(context).pop();
   }
 
   @override
-  void dispose () {
+  void dispose() {
     _titleController.dispose();
     super.dispose();
   }
@@ -46,13 +47,18 @@ class _AddPlaceScreenState extends ConsumerState<AddPlaceScreen> {
             TextField(
               decoration: const InputDecoration(label: Text('Place name')),
               controller: _titleController,
-              style: TextStyle(color: Theme.of(context).colorScheme.onBackground),
+              style:
+                  TextStyle(color: Theme.of(context).colorScheme.onBackground),
             ),
             const SizedBox(height: 10),
-            ImageInput(onPickImage: (image) {
-              _selectedImage = image;
-            },),
-            const SizedBox(height: 16,),
+            ImageInput(
+              onPickImage: (image) {
+                _selectedImage = image;
+              },
+            ),
+            const SizedBox(
+              height: 16,
+            ),
             Container(
               constraints: const BoxConstraints(
                 maxWidth: 145,
